@@ -37,9 +37,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } else {
     $post_url = $_GET['post_url'] ?? '';
+    // Remove 'index.html' if present and ensure there's no trailing slash
+    $normalized_url = rtrim($post_url, '/');
+    $normalized_url = preg_replace('/\/index\.html$/', '', $normalized_url);
+
+    // Prepare the pattern to match the URL in various forms
+    // This pattern will match the base URL, with a trailing slash, or ending with index.html
+    $url_pattern = $normalized_url . '%'; // Matches any suffix after the base URL
+
     try {
-        $stmt = $pdo->prepare("SELECT name, comment, posted_at FROM comments WHERE post_url = ? ORDER BY posted_at DESC");
-        $stmt->execute([$post_url]);
+        // Modify the query to use LIKE for matching the URL pattern
+        $stmt = $pdo->prepare("SELECT name, comment, posted_at FROM comments WHERE post_url LIKE ? OR post_url LIKE ? OR post_url LIKE ? ORDER BY posted_at DESC");
+        // Execute with patterns for base URL, URL with trailing slash, and URL with index.html
+        $stmt->execute([$normalized_url, $normalized_url . '/', $normalized_url . '/index.html']);
         $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($comments);
     } catch (PDOException $e) {
@@ -47,4 +57,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['status' => 'Fetch failed', 'error' => $e->getMessage()]);
     }
 }
+
 ?>
