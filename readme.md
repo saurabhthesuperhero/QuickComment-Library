@@ -1,6 +1,4 @@
-Certainly! Below is a more detailed version of the README.md file for your QuickComment system, including instructions for setting up the database and specifying the path to the QuickComment folder.
-
-### README.md Full Version
+### README.md 
 
 # QuickComment
 
@@ -25,12 +23,25 @@ To use QuickComment, your server must support:
 
 Clone this repository into your project directory, or download the ZIP and extract it.
 
-git clone https://github.com/yourusername/QuickComment.git
+git clone https://github.com/saurabhthesuperhero/QuickComment-Library.git
 
 ### Step 2: Database Setup
 
 1. Create a MySQL database for QuickComment.
-2. Import the `comments.sql` file provided in the QuickComment folder into your database to create the necessary table structure.
+2. Run Following SQL into Database:
+
+```
+CREATE TABLE comments (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    post_url VARCHAR(255) DEFAULT NULL,
+    name VARCHAR(100) DEFAULT NULL,
+    email VARCHAR(100) DEFAULT NULL,
+    comment TEXT DEFAULT NULL,
+    posted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
 
 ### Step 3: Configure Database Connection
 
@@ -43,16 +54,42 @@ $username = 'your_database_username';
 $password = 'your_database_password';
 ```
 
-### Step 4: Include QuickComment in Your Site
 
-Add the following lines to the HTML of the page where you want the comment system to appear:
+
+### Step 4: Configure Paths in commentSystem.js
+
+Before including QuickComment in your site, you need to adjust the file paths in `commentSystem.js` to match the location of your QuickComment files relative to your blog or webpage where the comment system will be used.
+
+Open `commentSystem.js` and locate the following lines at the beginning of the file:
+
+```javascript
+// File paths as variables
+const commentSystemUIPath = 'commentSystemUI.html';
+const commentHandlerPath = 'commentHandler.php';
+```
+
+Adjust these paths to point to the correct location of `commentSystemUI.html` and `commentHandler.php` relative to the HTML file where you're including the comment system. For example, if your QuickComment folder is in the root directory and your blog is inside a `blog` subdirectory, you might change the paths to:
+
+```javascript
+// File paths as variables
+const commentSystemUIPath = '../QuickComment/commentSystemUI.html';
+const commentHandlerPath = '../QuickComment/commentHandler.php';
+```
+
+This configuration ensures that your webpage can correctly locate and use the QuickComment UI and backend handler regardless of the directory structure of your project.
+
+### Step 5: Include QuickComment in Your Site
+
+After configuring the paths in `commentSystem.js`, add the following lines to the HTML of the page where you want the comment system to appear:
 
 ```html
 <script src="path/to/QuickComment/commentSystem.js"></script>
 <div id="comment-system"></div>
 ```
 
-Make sure to replace `path/to/QuickComment/` with the actual path to the QuickComment folder in your project.
+Replace `path/to/QuickComment/` with the actual path to the QuickComment folder in your project. This path should be relative to the location of the HTML file into which you are integrating the comment system.
+
+For instance, if your HTML file is located in the same directory as the QuickComment folder, the path would simply be `QuickComment/commentSystem.js`. If your HTML file is in a different directory, adjust the path accordingly to ensure it correctly points to the location of the `commentSystem.js` file.
 
 ## Usage
 
@@ -69,12 +106,4 @@ Contributions to QuickComment are welcome! Feel free to fork the repository, mak
 ## License
 
 QuickComment is released under the MIT license. See the LICENSE file for more details.
-```
 
-### Additional Notes
-
-- **Database File**: Ensure you include a `comments.sql` file in your repository that contains the SQL commands to create the necessary database table(s) for new users.
-- **Path Specification**: It's crucial to clearly instruct users on how to find the correct path to the QuickComment folder, as this can often be a stumbling block for less experienced users.
-- **Customization and Styling**: Providing examples of how to customize the styles or even offering a few different themes could greatly enhance the user experience.
-
-This README provides a comprehensive guide for users to install, configure, and customize the QuickComment system. Adjust any instructions or details as necessary to match your project's specific setup and requirements.
