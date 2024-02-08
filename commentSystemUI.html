@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comment System</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+    h2 {
+        color: #333;
+    }
+    #comment-form {
+        margin-bottom: 40px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #comment-form input,
+    #comment-form textarea {
+        width: calc(100% - 22px); /* Adjusting for padding and border */
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    #comment-form button {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    #comment-form button:hover {
+        background-color: #218838;
+    }
+    #comments-container {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .comment {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+    .comment:last-child {
+        border-bottom: none;
+    }
+    .comment-name {
+        font-weight: bold;
+        color: #007bff;
+    }
+    .comment-date {
+        color: #777;
+        font-size: 0.85rem;
+    }
+    .comment-text {
+        display: block; /* Makes it easier to manage spacing */
+        margin-top: 5px;
+    }
+</style>
+</head>
+<body>
+
+<h2>Add Comment</h2>
+<form id="comment-form">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email (Optional)">
+    <textarea name="comment" placeholder="Your Comment" required></textarea>
+    <button type="submit">Submit Comment</button>
+</form>
+
+<h2>All Comments</h2>
+<div id="comments-container"></div>
+
+<!-- Template for an individual comment -->
+<template id="comment-template">
+    <div class="comment">
+        <strong class="comment-name"></strong><span class="comment-text"></span>
+        <br>
+        <small class="comment-date"></small>
+    </div>
+</template>
+
+</body>
+</html>
